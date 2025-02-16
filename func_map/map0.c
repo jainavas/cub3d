@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:00:43 by jainavas          #+#    #+#             */
-/*   Updated: 2024/12/17 18:08:56 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/10 23:17:31 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static int	maptodstr2(t_map *vmap, char *filename, int fd, int nred)
 		free(line);
 		line = get_next_line(fd);
 	}
+	if (!*vmap->map)
+		return (-1);
 	vmap->map[ct] = NULL;
 	vmap->mapcpy[ct + 1] = NULL;
 	i = ft_strlen(vmap->map[ct - 1]);
@@ -91,7 +93,7 @@ t_map	*fullmap(int numargs, char *filename)
 		free(vmap);
 		return (ft_putstr_fd("ERROR\n", 1), NULL);
 	}
-	if (checkfloodfill(vmap) != 0)
+	if (checkfloodfill(vmap) != 0 || checkcolorstruct(vmap) != 0)
 	{
 		freedoublepointer(vmap->map);
 		free(vmap);

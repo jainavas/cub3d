@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 19:30:36 by jainavas          #+#    #+#             */
-/*   Updated: 2024/12/17 17:28:59 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:12:23 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,23 @@ int	checkfloodfill(t_map *vmap)
 
 void	getpaths(t_map *vmap, int fd)
 {
-	int		i;
 	char	*line;
 
-	i = 2;
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (line[0] == 'N' && line[1] == 'O')
-			vmap->pathnorth = ft_strtrim(&line[2], " ");
+			vmap->pathnorth = ft_strtrim(&line[2], " \n");
 		if (line[0] == 'S' && line[1] == 'O')
-			vmap->pathsouth = ft_strtrim(&line[2], " ");
+			vmap->pathsouth = ft_strtrim(&line[2], " \n");
 		if (line[0] == 'W' && line[1] == 'E')
-			vmap->pathwest = ft_strtrim(&line[2], " ");
+			vmap->pathwest = ft_strtrim(&line[2], " \n");
 		if (line[0] == 'E' && line[1] == 'A')
-			vmap->patheast = ft_strtrim(&line[2], " ");
+			vmap->patheast = ft_strtrim(&line[2], " \n");
 		if (line[0] == 'C')
-			vmap->ceilingcolor = ft_strtrim(&line[2], " ");
+			vmap->ceilingcolor = ft_strtrim(&line[2], " \n");
 		if (line[0] == 'F')
-			vmap->floorcolor = ft_strtrim(&line[2], " ");
+			vmap->floorcolor = ft_strtrim(&line[2], " \n");
 		free(line);
 		line = get_next_line(fd);
 	}
