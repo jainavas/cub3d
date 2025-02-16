@@ -7,7 +7,7 @@ CCFLAGS = -Wall -Wextra -Werror -g3
 SRC_DIR = src
 LIB_DIR = minilibx-linux
 
-SRC = func_map/map0.c func_map/map1.c func_map/map2.c cub3d.c graphics0.c imglisthandle.c math0.c mlxutils.c
+SRC = func_map/map0.c func_map/map1.c func_map/map2.c cub3d.c graphics0.c imglisthandle.c math0.c mlxutils.c movement.c
 
 OBJ = $(SRC:.c=.o)
 INCLUDE = cub3d.h

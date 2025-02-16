@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/16 21:10:37 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/16 23:28:06 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
+
+enum kcodes{
+	ESC = 65307,
+	w = 119,
+	a = 97,
+	s = 115,
+	d = 100,
+	uparrow = 65362,
+	rightarrow = 65363,
+	downarrow = 65364,
+	leftarrow = 65361,
+};
 
 typedef struct posi
 {
@@ -97,10 +109,13 @@ typedef struct var
 	t_imgx	*win_img;
 	int		height;
 	int		width;
+	int		moved;
 	t_map	*vmap;
 	t_imgx	**imgs;
 }	t_mlx;
 
+// cubed.c
+int	cube_loop(void *param);
 // map
 int		searchp(t_map *vmap, char **map);
 int		checkfloodfill(t_map *vmap);
@@ -110,8 +125,10 @@ void	getpaths(t_map *vmap, int fd);
 void	doublechartodoubleint(t_map *vmap);
 void	findlongestline(t_map *vmap);
 int		checkcolorstruct(t_map *vmap);
-
+// movement.c
+int	moves(int key_code, t_mlx *mlx);
 // math0.c
+double 	degreesToRadians(double degrees);
 void	fullraycast(t_map *vmap, t_mlx *vars);
 void	initrayvars(t_map *vmap);
 // graphics0.c
