@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:06:37 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/10 23:17:37 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/19 00:33:20 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@ void	findlongestline(t_map *vmap)
 	vmap->numwd = res;
 }
 
-void	doublechartodoubleint(t_map *vmap)
+int	**doublechartodoubleint(t_map *vmap)
 {
+	int		**res;
 	int		i;
 	int		j;
 
-	vmap->intmap = ft_calloc(vmap->numlines + 2, sizeof(int *));
+	res = ft_calloc(vmap->numlines + 2, sizeof(int *));
 	i = -1;
 	while (++i < vmap->numlines)
-		vmap->intmap[i] = ft_calloc(vmap->numwd, sizeof(int));
-	vmap->intmap[vmap->numlines] = NULL;
+		res[i] = ft_calloc(vmap->numwd, sizeof(int));
+	res[vmap->numlines] = NULL;
 	i = -1;
 	while (vmap->map[++i])
 	{
@@ -42,13 +43,14 @@ void	doublechartodoubleint(t_map *vmap)
 		while (vmap->map[i][++j] != '\0' && vmap->map[i][j] != '\n')
 		{
 			if (vmap->map[i][j] == ' ')
-				vmap->intmap[i][j] = 9;
+				res[i][j] = 0;
 			else if (ft_isalpha(vmap->map[i][j]))
-				vmap->intmap[i][j] = 5;
+				res[i][j] = 5;
 			else
-				vmap->intmap[i][j] = ((int)vmap->map[i][j] - 48);
+				res[i][j] = ((int)vmap->map[i][j] - 48);
 		}
 	}
+	return (res);
 }
 int	checkcolorstruct(t_map *vmap)
 {

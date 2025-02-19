@@ -6,32 +6,17 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/16 23:07:41 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:05:17 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	cube_loop(void *param)
-{
-	t_mlx	*g;
-
-	g = param;
-	if (g->moved)
-	{
-		fullraycast(g->vmap, g);
-		g->moved = 0;
-		mlx_put_image_to_window(g->mlx, g->mlx_win, g->win_img->i, 0, 0);
-	}
-	return (0);
-}
 
 int main(int argc, char **argv)
 {
 	t_map	*map;
 	t_mlx	*mlx;
 	int		i = -1;
-	int		j = -1;
 
 	map = fullmap(argc, argv[1]);
 	if (map == NULL)
@@ -39,13 +24,6 @@ int main(int argc, char **argv)
 	while (map->map[++i])
 		printf("%s\n", map->map[i]);
 	i = -1;
-	while (map->intmap[++i])
-	{
-		j = -1;
-		while (++j < map->numwd)
-			printf("%d|", map->intmap[i][j]);
-		printf("\n");
-	}
 	printf("%s\n", map->pathnorth);
 	printf("%s\n", map->pathsouth);
 	printf("%s\n", map->patheast);
@@ -58,9 +36,8 @@ int main(int argc, char **argv)
 	mlx->vmap = map;
 	mlx->imgs = ft_calloc(1, sizeof(t_imgx *));
 	initmlxassets(mlx, map);
-	initrayvars(map);
-	mlx->moved = 1;
-	cube_loop(mlx);
+	mlx->rc = initrayvars(map);
+	raycast(mlx->rc, mlx);
 	mlx_hook(mlx->mlx_win, 17, 1L << 0, close_win, mlx);
 	mlx_key_hook(mlx->mlx_win, moves, mlx);
 	mlx_loop(mlx->mlx);

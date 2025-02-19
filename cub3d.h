@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/16 23:28:06 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:03:28 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,68 @@ typedef struct map
 	char	**mapcpy;
 } t_map;
 
+typedef struct {
+	// Player position
+	double posX;
+	double posY;
+	// Player direction vector
+	double dirX;
+	double dirY;	
+	// Camera plane (for field of view)
+	double planeX;
+	double planeY;	
+	// Time and oldTime for frame timing
+	double time;
+	double oldTime;	
+	// Map dimensions
+	int mapWidth;
+	int mapHeight;	
+	// Map data (2D array)
+	int **map;	
+	// Screen dimensions
+	int screenWidth;
+	int screenHeight;	
+	// Raycasting variables
+	double cameraX;      // x-coordinate in camera space
+	double rayDirX;      // ray direction vector
+	double rayDirY;
+	int mapX;            // current square of the map the ray is in
+	int mapY;
+	double sideDistX;    // length of ray from current position to next x or y-side
+	double sideDistY;
+	double deltaDistX;   // length of ray from one x or y-side to next x or y-side
+	double deltaDistY;
+	double perpWallDist; // perpendicular distance to the wall
+	int stepX;           // what direction to step in x or y-direction (either +1 or -1)
+	int stepY;
+	int hit;             // was there a wall hit?
+	int side;            // was a NS or a EW wall hit?	
+	// Texture variables
+	int texNum;          // texture number
+	int texX;            // x coordinate on the texture
+	double wallX;        // where exactly the wall was hit
+	double step;        // where exactly the wall was hit
+	double texPos;        // where exactly the wall was hit
+	int texWidth;        // texture width
+	int texHeight;       // texture height
+	int	lineHeight;
+	int	drawStart;
+	int	drawEnd;
+	int	color;
+	int	pixel;
+	// Color variables
+	// Movement and rotation speeds
+	double moveSpeed;
+	double rotSpeed;
+	// Key states (for movement)
+	int keyW;
+	int keyS;
+	int keyA;
+	int keyD;
+	int keyLeft;
+	int keyRight;
+} t_rayc;
+
 typedef struct var
 {
 	void	*mlx;
@@ -110,34 +172,31 @@ typedef struct var
 	int		height;
 	int		width;
 	int		moved;
+	t_rayc	*rc;
 	t_map	*vmap;
 	t_imgx	**imgs;
 }	t_mlx;
 
 // cubed.c
-int	cube_loop(void *param);
 // map
 int		searchp(t_map *vmap, char **map);
 int		checkfloodfill(t_map *vmap);
 t_map	*fullmap(int numargs, char *filename);
 int		spaces(char str);
 void	getpaths(t_map *vmap, int fd);
-void	doublechartodoubleint(t_map *vmap);
+int		**doublechartodoubleint(t_map *vmap);
 void	findlongestline(t_map *vmap);
 int		checkcolorstruct(t_map *vmap);
 // movement.c
 int	moves(int key_code, t_mlx *mlx);
 // math0.c
 double 	degreesToRadians(double degrees);
-void	fullraycast(t_map *vmap, t_mlx *vars);
-void	initrayvars(t_map *vmap);
+void 	raycast(t_rayc *rc, t_mlx *mlx);
+t_rayc	*initrayvars(t_map *vmap);
 // graphics0.c
 void	initmlxassets(t_mlx *mlx, t_map *vmap);
-int		get_dist_color(int color, float ds, int tr);
 int		new_trgb(t_color c);
 t_color	new_rgbt(int col);
-void	draw_texture(t_mlx *mlx, t_imgx *i, int ray_count, int wall_height);
-void	drawall(t_mlx *mlx, int ray_count, float dis);
 int		close_win(t_mlx *vars);
 // imglisthandle.c
 t_imgx	*imgnew(char *name);
@@ -151,9 +210,5 @@ void			my_mlx_pixel_put(t_imgx *data, int x, int y, int color);
 unsigned int	my_mlx_pixel_get(t_imgx *data, int x, int y);
 void			my_mlx_area_put(t_imgx *d, t_vector p, t_vector dim, int c);
 t_vector		newvector(int x, int y);
-void			mlx_img_to_img(int p[2], t_imgx img[2], int c1);
-t_imgx			*get_texture(t_map *vmap, t_imgx **img);
-int				get_tex_color(t_map *vmap, t_imgx *i, int z);
-void			redraw_elem(t_mlx *mlx, t_imgx img, int x, int y);
 
 #endif

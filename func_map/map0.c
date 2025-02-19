@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:00:43 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/10 23:17:31 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/19 00:26:52 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,5 @@ t_map	*fullmap(int numargs, char *filename)
 		free(vmap);
 		return (ft_putstr_fd("ERROR check\n", 1), NULL);
 	}
-	doublechartodoubleint(vmap);
 	return (vmap);
 }
