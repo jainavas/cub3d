@@ -6,21 +6,17 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/19 14:05:17 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:15:36 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int main(int argc, char **argv)
+void	printmapvars(t_map *map)
 {
-	t_map	*map;
-	t_mlx	*mlx;
-	int		i = -1;
+	int i;
 
-	map = fullmap(argc, argv[1]);
-	if (map == NULL)
-		return (0);
+	i = -1;
 	while (map->map[++i])
 		printf("%s\n", map->map[i]);
 	i = -1;
@@ -30,13 +26,21 @@ int main(int argc, char **argv)
 	printf("%s\n", map->pathwest);
 	printf("%s\n", map->ceilingcolor);
 	printf("%s\n", map->floorcolor);
+}
+
+int main(int argc, char **argv)
+{
+	t_mlx	*mlx;
+
 	mlx = ft_calloc(1, sizeof(t_mlx));
+	mlx->vmap = fullmap(argc, argv[1]);
+	if (mlx->vmap == NULL)
+		return (free(mlx), 1);
 	mlx->mlx = mlx_init();
-	mlx->mlx_win = mlx_new_window(mlx->mlx, 640, 480, "HOLA");
-	mlx->vmap = map;
+	mlx->mlx_win = mlx_new_window(mlx->mlx, WINW, WINH, "Cub3d");
 	mlx->imgs = ft_calloc(1, sizeof(t_imgx *));
-	initmlxassets(mlx, map);
-	mlx->rc = initrayvars(map);
+	initmlxassets(mlx, mlx->vmap);
+	mlx->rc = initrayvars(mlx->vmap);
 	raycast(mlx->rc, mlx);
 	mlx_hook(mlx->mlx_win, 17, 1L << 0, close_win, mlx);
 	mlx_key_hook(mlx->mlx_win, moves, mlx);

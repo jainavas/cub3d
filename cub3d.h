@@ -6,15 +6,15 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/19 16:03:28 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:07:58 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 # define PI 3.14159265358979323846
-# define WINW 640
-# define WINH 480
+# define WINW 1024
+# define WINH 768
 
 # include "./minilibx-linux/mlx.h"
 # include "./libft_ext/libft.h"
@@ -103,65 +103,50 @@ typedef struct map
 } t_map;
 
 typedef struct {
-	// Player position
 	double posX;
 	double posY;
-	// Player direction vector
 	double dirX;
 	double dirY;	
-	// Camera plane (for field of view)
 	double planeX;
 	double planeY;	
-	// Time and oldTime for frame timing
 	double time;
 	double oldTime;	
-	// Map dimensions
 	int mapWidth;
 	int mapHeight;	
-	// Map data (2D array)
 	int **map;	
-	// Screen dimensions
 	int screenWidth;
 	int screenHeight;	
 	// Raycasting variables
-	double cameraX;      // x-coordinate in camera space
-	double rayDirX;      // ray direction vector
+	double cameraX;
+	double rayDirX;
 	double rayDirY;
-	int mapX;            // current square of the map the ray is in
+	int mapX;
 	int mapY;
-	double sideDistX;    // length of ray from current position to next x or y-side
+	double sideDistX;
 	double sideDistY;
-	double deltaDistX;   // length of ray from one x or y-side to next x or y-side
+	double deltaDistX;
 	double deltaDistY;
-	double perpWallDist; // perpendicular distance to the wall
-	int stepX;           // what direction to step in x or y-direction (either +1 or -1)
+	double perpWallDist;
+	int stepX;
 	int stepY;
-	int hit;             // was there a wall hit?
-	int side;            // was a NS or a EW wall hit?	
+	int hit;
+	int side;
 	// Texture variables
-	int texNum;          // texture number
-	int texX;            // x coordinate on the texture
-	double wallX;        // where exactly the wall was hit
-	double step;        // where exactly the wall was hit
-	double texPos;        // where exactly the wall was hit
-	int texWidth;        // texture width
-	int texHeight;       // texture height
+	int texNum;
+	int texX;
+	double wallX;
+	double step;
+	double texPos;
+	int texWidth;
+	int texHeight;
 	int	lineHeight;
 	int	drawStart;
 	int	drawEnd;
 	int	color;
 	int	pixel;
-	// Color variables
 	// Movement and rotation speeds
 	double moveSpeed;
 	double rotSpeed;
-	// Key states (for movement)
-	int keyW;
-	int keyS;
-	int keyA;
-	int keyD;
-	int keyLeft;
-	int keyRight;
 } t_rayc;
 
 typedef struct var

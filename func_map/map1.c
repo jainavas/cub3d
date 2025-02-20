@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 19:30:36 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/12 18:12:23 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:15:55 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,6 @@ int	checkfloodfill(t_map *vmap)
 {
 	if (map_floodfill_path(vmap, vmap->pospy, vmap->pospx) != 0)
 		return (freedoublepointer(vmap->mapcpy), 1);
-	int	i = -1;
-	while (vmap->mapcpy[++i])
-		printf("%s\n", vmap->mapcpy[i]);
 	return (freedoublepointer(vmap->mapcpy), 0);
 }
 

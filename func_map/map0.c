@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 17:00:43 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/19 00:26:52 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:21:33 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ t_map	*fullmap(int numargs, char *filename)
 		ft_putstr_fd("ERROR reservar mem\n", 1);
 	if (maptodstr(numargs, filename, vmap) != 0)
 	{
-		freedoublepointer(vmap->map);
-		freedoublepointer(vmap->mapcpy);
+		if (vmap->map)
+			freedoublepointer(vmap->map);
+		if (vmap->mapcpy)
+			freedoublepointer(vmap->mapcpy);
 		free(vmap);
 		return (ft_putstr_fd("ERROR\n", 1), NULL);
 	}

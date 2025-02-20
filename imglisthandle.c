@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:47:39 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/16 21:48:53 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:33:56 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	imgaddr(t_imgx *img, t_mlx *mlx, char *file)
 		return;
 	img->i = mlx_xpm_file_to_image(mlx->mlx, file, &img->width, &img->height);
 	if (!img->i)
-		return;
+		return (ft_putstr_fd("Error\nInvalid texture file\n", 1), ft_putstr_fd(file, 1), exit(1), (void)0);
 	img->addr = mlx_get_data_addr(img->i, &img->bpp, \
 		&img->line_len, &img->endian);
 }
@@ -68,7 +68,8 @@ void	freeimgs(t_imgx **head, t_mlx *mlx)
 	{
 		aux = (*head)->next;
 		free((*head)->name);
-		mlx_destroy_image(mlx->mlx, (*head)->i);
+		if ((*head)->i)
+			mlx_destroy_image(mlx->mlx, (*head)->i);
 		free((*head));
 		*head = aux;
 	}
