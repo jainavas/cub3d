@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   imglisthandle.c                                    :+:      :+:    :+:   */
+/*   image_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/07 12:47:39 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/20 16:33:56 by jainavas         ###   ########.fr       */
+/*   Created: 2025/02/22 13:10:01 by mhiguera          #+#    #+#             */
+/*   Updated: 2025/02/22 15:37:51 by mhiguera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../inc/cub3d.h"
 
-t_imgx	*imgnew(char *name)
+t_imgx	*create_new_image(char *name)
 {
 	t_imgx	*new;
 
@@ -23,7 +23,7 @@ t_imgx	*imgnew(char *name)
 	return (new);
 }
 
-t_imgx	*imglast(t_imgx *lst)
+t_imgx	*get_last_image(t_imgx *lst)
 {
 	t_imgx	*tmp;
 
@@ -34,7 +34,7 @@ t_imgx	*imglast(t_imgx *lst)
 	return (tmp);
 }
 
-void	imgadd_back(t_imgx **lst, t_imgx *new)
+void	add_image_back(t_imgx **lst, t_imgx *new)
 {
 	t_imgx	*tmp;
 
@@ -42,43 +42,26 @@ void	imgadd_back(t_imgx **lst, t_imgx *new)
 		*lst = new;
 	else
 	{
-		tmp = imglast(*lst);
+		tmp = get_last_image(*lst);
 		new->next = NULL;
 		tmp->next = new;
 		new->prev = tmp;
 	}
 }
 
-void	imgaddr(t_imgx *img, t_mlx *mlx, char *file)
+void	set_image_address(t_imgx *img, t_mlx *mlx, char *file)
 {
 	if (!img)
-		return;
+		return ;
 	img->i = mlx_xpm_file_to_image(mlx->mlx, file, &img->width, &img->height);
 	if (!img->i)
-		return (ft_putstr_fd("Error\nInvalid texture file\n", 1), ft_putstr_fd(file, 1), exit(1), (void)0);
+		return (ft_putstr_fd("Error\nInvalid texture file\n", 1),
+			ft_putstr_fd(file, 1), exit(1), (void)0);
 	img->addr = mlx_get_data_addr(img->i, &img->bpp, \
 		&img->line_len, &img->endian);
 }
 
-void	freeimgs(t_imgx **head, t_mlx *mlx)
-{
-	t_imgx	*aux;
-
-	while (*head && mlx)
-	{
-		aux = (*head)->next;
-		free((*head)->name);
-		if ((*head)->i)
-			mlx_destroy_image(mlx->mlx, (*head)->i);
-		free((*head));
-		*head = aux;
-	}
-	free(mlx->win_img->name);
-	mlx_destroy_image(mlx->mlx, mlx->win_img->i);
-	free(mlx->win_img);
-}
-
-t_imgx	*imgsearch(char *tolook, t_imgx **head)
+t_imgx	*search_image(char *tolook, t_imgx **head)
 {
 	t_imgx	*tmp;
 

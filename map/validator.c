@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map1.c                                             :+:      :+:    :+:   */
+/*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 19:30:36 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/20 16:15:55 by jainavas         ###   ########.fr       */
+/*   Created: 2025/02/22 13:09:53 by mhiguera          #+#    #+#             */
+/*   Updated: 2025/02/22 15:36:31 by mhiguera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../inc/cub3d.h"
 
-int	spaces(char str)
+int	check_spaces(char str)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ static int	map_floodfill_path(t_map *vmap, int y, int x)
 	int	ret;
 
 	ret = 0;
-	if (ret > 0 || spaces(vmap->mapcpy[y][x]))
+	if (ret > 0 || check_spaces(vmap->mapcpy[y][x]))
 		return (1);
 	if ((x == 0 || y == 0) && vmap->mapcpy[y][x] != '1')
 		return (1);
@@ -41,7 +41,7 @@ static int	map_floodfill_path(t_map *vmap, int y, int x)
 	return (ret);
 }
 
-int	searchp(t_map *vmap, char **map)
+int	find_player(t_map *vmap, char **map)
 {
 	char	*posi;
 	int		res;
@@ -63,37 +63,37 @@ int	searchp(t_map *vmap, char **map)
 		}
 		i++;
 	}
-	return (findlongestline(vmap), res);
+	return (get_map_dimensions(vmap), res);
 }
 
-int	checkfloodfill(t_map *vmap)
+int	check_flood_fill(t_map *vmap)
 {
 	if (map_floodfill_path(vmap, vmap->pospy, vmap->pospx) != 0)
 		return (freedoublepointer(vmap->mapcpy), 1);
 	return (freedoublepointer(vmap->mapcpy), 0);
 }
 
-void	getpaths(t_map *vmap, int fd)
+int	validate_colors(t_map *vmap)
 {
-	char	*line;
-
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (line[0] == 'N' && line[1] == 'O')
-			vmap->pathnorth = ft_strtrim(&line[2], " \n");
-		if (line[0] == 'S' && line[1] == 'O')
-			vmap->pathsouth = ft_strtrim(&line[2], " \n");
-		if (line[0] == 'W' && line[1] == 'E')
-			vmap->pathwest = ft_strtrim(&line[2], " \n");
-		if (line[0] == 'E' && line[1] == 'A')
-			vmap->patheast = ft_strtrim(&line[2], " \n");
-		if (line[0] == 'C')
-			vmap->ceilingcolor = ft_strtrim(&line[2], " \n");
-		if (line[0] == 'F')
-			vmap->floorcolor = ft_strtrim(&line[2], " \n");
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
+	if (ft_strcount(vmap->ceilingcolor, ',') != 2
+		|| ft_strcount(vmap->floorcolor, ',') != 2)
+		return (-1);
+	vmap->ceicolor.r = ft_atoi(vmap->ceilingcolor);
+	vmap->ceicolor.g = ft_atoi(ft_strchr(vmap->ceilingcolor, ',') + 1);
+	vmap->ceicolor.b = ft_atoi(ft_strchr(ft_strchr(vmap->ceilingcolor, ',')
+				+ 1, ',') + 1);
+	vmap->ceicolor.t = 255;
+	vmap->flocolor.r = ft_atoi(vmap->floorcolor);
+	vmap->flocolor.g = ft_atoi(ft_strchr(vmap->floorcolor, ',') + 1);
+	vmap->flocolor.b = ft_atoi(ft_strchr(ft_strchr(vmap->floorcolor, ',')
+				+ 1, ',') + 1);
+	vmap->flocolor.t = 255;
+	if ((vmap->ceicolor.r > 255 || vmap->ceicolor.r < 0)
+		|| (vmap->ceicolor.g > 255 || vmap->ceicolor.g < 0)
+		|| (vmap->ceicolor.b > 255 || vmap->ceicolor.b < 0)
+		|| (vmap->flocolor.r > 255 || vmap->flocolor.r < 0)
+		|| (vmap->flocolor.g > 255 || vmap->flocolor.g < 0)
+		|| (vmap->flocolor.b > 255 || vmap->flocolor.b < 0))
+		return (-1);
+	return (0);
 }

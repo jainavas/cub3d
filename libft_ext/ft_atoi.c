@@ -12,7 +12,7 @@
 
 #include "./libft.h"
 
-static int	spaces(const char *str)
+static int	check_spaces(const char *str)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ int	ft_atoi(const char *str)
 	int	res;
 	int	minus;
 
-	i = spaces(str);
+	i = check_spaces(str);
 	minus = 0;
 	res = 0;
 	if (str[i] == '-')

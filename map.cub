@@ -1,8 +1,8 @@
 F 139,69,19
-SO ./text/murosur
-WE ./text/muroOeste
-EA ./text/muroeste
-NO ./text/muronorte
+SO ./imgs/murosur
+WE ./imgs/muroOeste
+EA ./imgs/muroeste
+NO ./imgs/muronorte
 C 135,206,235
         1111111111111111111111111
         1000000000110000000000001
