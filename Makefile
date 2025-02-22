@@ -46,14 +46,17 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@cd libft_ext && make
+	@cd minilibx-linux && make
 	@$(CC) $(CCFLAGS) $(OBJ) -I ../cub3d.h -I /libft_ext/libft.h $(MLXA) $(PRINTFA) $(LIBFTA) -Iminilibx-linux -lXext -lX11 -lm -lz -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)
+	@cd minilibx-linux && make
 	@cd libft_ext && make clean
 
 fclean: clean
 	$(RM) $(NAME)
+	@cd minilibx-linux && make
 	@cd libft_ext && make fclean
 
 re: fclean all

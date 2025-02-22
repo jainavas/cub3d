@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:53 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/22 15:36:31 by mhiguera         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:37:48 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	find_player(t_map *vmap, char **map)
 int	check_flood_fill(t_map *vmap)
 {
 	if (map_floodfill_path(vmap, vmap->pospy, vmap->pospx) != 0)
-		return (freedoublepointer(vmap->mapcpy), 1);
+		return (freedoublepointer(vmap->mapcpy),
+			ft_putstr_fd("Error\nFloodFill Check\n", 1), 1);
 	return (freedoublepointer(vmap->mapcpy), 0);
 }
 
@@ -77,7 +78,7 @@ int	validate_colors(t_map *vmap)
 {
 	if (ft_strcount(vmap->ceilingcolor, ',') != 2
 		|| ft_strcount(vmap->floorcolor, ',') != 2)
-		return (-1);
+		return (ft_putstr_fd("Error\nColors Check\n", 1), -1);
 	vmap->ceicolor.r = ft_atoi(vmap->ceilingcolor);
 	vmap->ceicolor.g = ft_atoi(ft_strchr(vmap->ceilingcolor, ',') + 1);
 	vmap->ceicolor.b = ft_atoi(ft_strchr(ft_strchr(vmap->ceilingcolor, ',')
@@ -94,6 +95,6 @@ int	validate_colors(t_map *vmap)
 		|| (vmap->flocolor.r > 255 || vmap->flocolor.r < 0)
 		|| (vmap->flocolor.g > 255 || vmap->flocolor.g < 0)
 		|| (vmap->flocolor.b > 255 || vmap->flocolor.b < 0))
-		return (-1);
+		return (ft_putstr_fd("Error\nColors Check\n", 1), -1);
 	return (0);
 }

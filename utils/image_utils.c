@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:10:01 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/22 15:37:51 by mhiguera         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:50:25 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	set_image_address(t_imgx *img, t_mlx *mlx, char *file)
 	img->i = mlx_xpm_file_to_image(mlx->mlx, file, &img->width, &img->height);
 	if (!img->i)
 		return (ft_putstr_fd("Error\nInvalid texture file\n", 1),
-			ft_putstr_fd(file, 1), exit(1), (void)0);
+			ft_putendl_fd(file, 1), exit(1), (void)0);
 	img->addr = mlx_get_data_addr(img->i, &img->bpp, \
 		&img->line_len, &img->endian);
 }

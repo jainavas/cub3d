@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_content.c                                   :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/22 15:08:27 by mhiguera         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:33:50 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	count_map_lines(char *filename, int *nred)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (ft_putstr_fd("Fallo al abrir el archivo\n", 1), 1);
+		return (ft_putstr_fd("Error\nFallo al abrir el archivo\n", 1), 1);
 	temp = get_next_line(fd);
 	while (temp != NULL)
 	{
