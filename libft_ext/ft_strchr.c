@@ -80,7 +80,6 @@ char	*ft_strchrgrp(const char *s, int isgroup(int))
 	return (NULL);
 }
 
-#include <stdio.h>
 // int main (){
 // 	printf("%s", ft_revstrchr(ft_strchr("htrhrha%c rg45g4", '%'), 'h'));
 // }
