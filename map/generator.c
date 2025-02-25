@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:44 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/22 14:48:19 by mhiguera         ###   ########.fr       */
+/*   Updated: 2025/02/25 04:00:17 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,32 @@ int	set_player_orientation(t_map *vmap, t_rayc *rc)
 		return (rc->dir_x = -1, rc->dir_y = 0, rc->plane_x
 			= 0, rc->plane_y = -0.66, 0);
 	return (1);
+}
+
+int	colorparser(char *line, t_color *color)
+{
+	int		i;
+	int		j;
+	char	**rgb;
+
+	i = -1;
+	rgb = ft_split(line, ',');
+	if (!rgb)
+		return (1);
+	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (freedoublepointer(rgb), 1);
+	while (rgb[++i])
+	{
+		j = -1;
+		while (rgb[i][++j])
+			if (!ft_isdigit(rgb[i][j]))
+				return (freedoublepointer(rgb), 1);
+	}
+	color->r = ft_atoi(rgb[0]);
+	color->g = ft_atoi(rgb[1]);
+	color->b = ft_atoi(rgb[2]);
+	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255
+		|| color->b < 0 || color->b > 255)
+		return (freedoublepointer(rgb), 1);
+	return (freedoublepointer(rgb), 0);
 }

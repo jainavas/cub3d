@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/22 17:33:50 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/25 03:53:16 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@ static int	process_map_line(t_map *vmap, char *line, int *ct)
 {
 	if (ft_isalpha(line[0]) == 0 && line[0] != '\n' && line[0] != '\0')
 	{
-		vmap->map[*ct] = ft_substr(line, 0, ft_strlen(line) - 1);
+		if (ft_strchr(line, '\n'))
+			vmap->map[*ct] = ft_substr(line, 0, ft_strlen(line) - 1);
+		else
+			vmap->map[*ct] = ft_strdup(line);
 		vmap->mapcpy[*ct] = ft_strdup(vmap->map[*ct]);
 		(*ct)++;
+		return (1);
 	}
 	return (0);
 }
@@ -28,14 +32,16 @@ static int	finalize_map_content(t_map *vmap, int ct, char *filename)
 	int	i;
 
 	if (!*vmap->map)
-		return (-1);
+		return (printf("Error\nMap Config\n"), -1);
 	vmap->map[ct] = NULL;
 	vmap->mapcpy[ct + 1] = NULL;
 	i = ft_strlen(vmap->map[ct - 1]);
 	vmap->mapcpy[ct] = ft_calloc(i + 1, sizeof(char));
 	if (find_player(vmap, vmap->map) != 1)
-		return (1);
+		return (printf("Error\nMap Config\n"), 1);
 	get_textures_paths(vmap, open(filename, O_RDONLY));
+	if (vmap->lastmapline == -2)
+		return (ft_putstr_fd("Error\nMap Config\n", 1), exit(-1), -1);
 	return (0);
 }
 
@@ -43,15 +49,19 @@ int	parse_map_content(t_map *vmap, char *filename, int fd, int nred)
 {
 	char	*line;
 	int		ct;
+	int		i;
 
 	fd = open(filename, O_RDONLY);
 	ct = 0;
+	i = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		process_map_line(vmap, line, &ct);
+		if (process_map_line(vmap, line, &ct))
+			vmap->lastmapline = i;
 		free(line);
 		line = get_next_line(fd);
+		i++;
 	}
 	close(fd);
 	vmap->numlines = nred;

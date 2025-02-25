@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/22 16:05:32 by mhiguera         ###   ########.fr       */
+/*   Updated: 2025/02/25 03:26:08 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct map
 	double	x;
 	double	y;
 	t_ray	ray;
-	int		fov;
+	int		lastmapline;
 	int		halfov;
 	double	angle;
 	double	accangle;
@@ -174,6 +174,7 @@ void			get_textures_paths(t_map *vmap, int fd);
 int				**convert_to_int_map(t_map *vmap);
 void			get_map_dimensions(t_map *vmap);
 int				validate_colors(t_map *vmap);
+int				colorparser(char *line, t_color *color);
 // movement.c
 int				handle_movement(int key_code, t_mlx *mlx);
 // math0.c
