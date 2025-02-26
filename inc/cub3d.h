@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/25 03:26:08 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:49:46 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct map
 	double	y;
 	t_ray	ray;
 	int		lastmapline;
+	int		fmpl;
 	int		halfov;
 	double	angle;
 	double	accangle;

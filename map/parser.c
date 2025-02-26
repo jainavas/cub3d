@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/25 03:51:13 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:50:23 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,17 @@ void	get_textures_paths(t_map *vmap, int fd)
 	line = get_next_line(fd);
 	while (line && ++i < INT_MAX)
 	{
-		if (!ft_strncmp(line, "NO ", 3) && !vmap->pathnorth)
+		if (!ft_strncmp(line, "NO ", 3) && !vmap->pathnorth && vmap->fmpl > i)
 			vmap->pathnorth = ft_strtrim(&line[2], " \n");
-		if (!ft_strncmp(line, "SO ", 3) && !vmap->pathsouth)
+		if (!ft_strncmp(line, "SO ", 3) && !vmap->pathsouth && vmap->fmpl > i)
 			vmap->pathsouth = ft_strtrim(&line[2], " \n");
-		if (!ft_strncmp(line, "WE ", 3) && !vmap->pathwest)
+		if (!ft_strncmp(line, "WE ", 3) && !vmap->pathwest && vmap->fmpl > i)
 			vmap->pathwest = ft_strtrim(&line[2], " \n");
-		if (!ft_strncmp(line, "EA ", 3) && !vmap->patheast)
+		if (!ft_strncmp(line, "EA ", 3) && !vmap->patheast && vmap->fmpl > i)
 			vmap->patheast = ft_strtrim(&line[2], " \n");
-		if (!ft_strncmp(line, "C ", 2) && !vmap->ceilingcolor)
+		if (!ft_strncmp(line, "C ", 2) && !vmap->ceilingcolor && vmap->fmpl > i)
 			vmap->ceilingcolor = ft_strtrim(&line[2], " \n");
-		if (!ft_strncmp(line, "F ", 2) && !vmap->floorcolor)
+		if (!ft_strncmp(line, "F ", 2) && !vmap->floorcolor && vmap->fmpl > i)
 			vmap->floorcolor = ft_strtrim(&line[2], " \n");
 		free(line);
 		line = get_next_line(fd);

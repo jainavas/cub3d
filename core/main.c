@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:08:32 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/22 15:59:10 by mhiguera         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:00:58 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	init_resources(t_mlx *mlx, t_map *vmap)
 {
-	char	*tmp;
-
 	mlx->win_img = create_new_image("win");
 	mlx->win_img->i = mlx_new_image(mlx->mlx, WINW, WINH);
 	mlx->win_img->addr = mlx_get_data_addr(mlx->win_img->i,
@@ -23,22 +21,21 @@ void	init_resources(t_mlx *mlx, t_map *vmap)
 			&mlx->win_img->endian);
 	draw_area(mlx->win_img, create_vector(0, 0), create_vector(WINW, WINH),
 		0x0000FF00);
-	tmp = ft_strjoin(vmap->pathnorth, ".xpm");
+	if (!vmap->pathnorth || !vmap->pathsouth
+		|| !vmap->patheast || !vmap->pathwest)
+		return (ft_putstr_fd("Error\nIncorrect Path Config\n", 1), exit(1));
 	add_image_back(mlx->imgs, create_new_image("north"));
-	set_image_address(get_last_image(*mlx->imgs), mlx, tmp);
-	free(tmp);
-	tmp = ft_strjoin(vmap->pathsouth, ".xpm");
+	set_image_address(get_last_image(*mlx->imgs), mlx,
+		ft_strjoin(vmap->pathnorth, ".xpm"));
 	add_image_back(mlx->imgs, create_new_image("south"));
-	set_image_address(get_last_image(*mlx->imgs), mlx, tmp);
-	free(tmp);
-	tmp = ft_strjoin(vmap->patheast, ".xpm");
+	set_image_address(get_last_image(*mlx->imgs), mlx,
+		ft_strjoin(vmap->pathsouth, ".xpm"));
 	add_image_back(mlx->imgs, create_new_image("east"));
-	set_image_address(get_last_image(*mlx->imgs), mlx, tmp);
-	free(tmp);
-	tmp = ft_strjoin(vmap->pathwest, ".xpm");
+	set_image_address(get_last_image(*mlx->imgs), mlx,
+		ft_strjoin(vmap->patheast, ".xpm"));
 	add_image_back(mlx->imgs, create_new_image("west"));
-	set_image_address(get_last_image(*mlx->imgs), mlx, tmp);
-	free(tmp);
+	set_image_address(get_last_image(*mlx->imgs), mlx,
+		ft_strjoin(vmap->pathwest, ".xpm"));
 }
 
 t_rayc	*init_raycasting(t_map *vmap)

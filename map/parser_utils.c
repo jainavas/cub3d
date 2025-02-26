@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/25 03:53:16 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:49:46 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,16 @@ int	parse_map_content(t_map *vmap, char *filename, int fd, int nred)
 	fd = open(filename, O_RDONLY);
 	ct = 0;
 	i = 0;
+	vmap->fmpl = -1;
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (process_map_line(vmap, line, &ct))
+		{
+			if (vmap->fmpl == -1)
+				vmap->fmpl = i;
 			vmap->lastmapline = i;
+		}
 		free(line);
 		line = get_next_line(fd);
 		i++;
