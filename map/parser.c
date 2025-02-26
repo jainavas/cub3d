@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 18:56:27 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:01:58 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_map	*init_map(int numargs, char *filename)
 	if (check_flood_fill(vmap) != 0 || validate_colors(vmap) != 0)
 	{
 		freedoublepointer(vmap->map);
+		freepaths(vmap);
 		free(vmap);
 		return (exit(-1), NULL);
 	}

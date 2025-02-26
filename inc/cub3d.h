@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/26 17:49:46 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:01:04 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ t_imgx			*get_last_image(t_imgx *lst);
 void			add_image_back(t_imgx **lst, t_imgx *new);
 void			set_image_address(t_imgx *img, t_mlx *mlx, char *file);
 t_imgx			*search_image(char *tolook, t_imgx **head);
+void			freepaths(t_map *vmap);
 void			free_images(t_imgx **head, t_mlx *mlx);
 // mlxutils.c
 void			put_pixel(t_imgx *data, int x, int y, int color);

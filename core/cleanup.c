@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhiguera <mhiguera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:08:27 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/22 14:02:22 by mhiguera         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:01:48 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ void	free_images(t_imgx **head, t_mlx *mlx)
 	free(mlx->win_img);
 }
 
+void	freepaths(t_map *vmap)
+{
+	if (vmap->pathnorth)
+		free(vmap->pathnorth);
+	if (vmap->pathsouth)
+		free(vmap->pathsouth);
+	if (vmap->patheast)
+		free(vmap->patheast);
+	if (vmap->pathwest)
+		free(vmap->pathwest);
+	if (vmap->ceilingcolor)
+		free(vmap->ceilingcolor);
+	if (vmap->floorcolor)
+		free(vmap->floorcolor);
+}
+
 int	close_window(t_mlx *vars)
 {
 	free_images(vars->imgs, vars);
@@ -37,12 +53,7 @@ int	close_window(t_mlx *vars)
 	mlx_destroy_display(vars->mlx);
 	freedoublepointer(vars->vmap->map);
 	freedp(vars->rc->map);
-	free(vars->vmap->patheast);
-	free(vars->vmap->pathwest);
-	free(vars->vmap->pathnorth);
-	free(vars->vmap->pathsouth);
-	free(vars->vmap->ceilingcolor);
-	free(vars->vmap->floorcolor);
+	freepaths(vars->vmap);
 	free(vars->vmap);
 	free(vars->imgs);
 	free(vars->rc);
