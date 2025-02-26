@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 19:38:56 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:11:10 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ static int	finalize_map_content(t_map *vmap, int ct, char *filename)
 	int	i;
 
 	if (!*vmap->map)
-		return (printf("Error\nMap Config\n"), -1);
+		return (printf("Error\nMap Config 1\n"), -1);
 	vmap->map[ct] = NULL;
 	vmap->mapcpy[ct + 1] = NULL;
 	i = ft_strlen(vmap->map[ct - 1]);
 	vmap->mapcpy[ct] = ft_calloc(i + 1, sizeof(char));
 	if (find_player(vmap, vmap->map) != 1)
-		return (printf("Error\nMap Config\n"), 1);
+		return (printf("Error\nMap Config 2\n"), 1);
 	get_textures_paths(vmap, open(filename, O_RDONLY));
 	if (vmap->lastmapline == -2)
-		return (ft_putstr_fd("Error\nMap Config\n", 1), exit(-1), -1);
+		return (ft_putstr_fd("Error\nMap Config 3\n", 1), exit(-1), -1);
 	return (putmapinwidth(vmap), 0);
 }
 
@@ -59,8 +59,7 @@ int	parse_map_content(t_map *vmap, char *filename, int fd, int nred)
 	ct = 0;
 	i = 0;
 	line = get_next_line(fd);
-	while (line && !(ft_isalpha(line[0]) == 0
-			&& check_spaces(line[0]) == 1))
+	while (line && (ft_isalpha(line[0]) != 0 || line[0] == '\n'))
 	{
 		free(line);
 		line = get_next_line(fd);
