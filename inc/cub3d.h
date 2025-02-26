@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/26 19:37:54 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:22:43 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,5 +211,6 @@ int				count_map_lines(char *filename, int *nred);
 int				parse_map_content(t_map *vmap, char *filename,
 					int fd, int nred);
 void			putmapinwidth(t_map *vmap);
+int				isunvalidchar(int j);
 
 #endif

@@ -6,11 +6,19 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:08:27 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 19:01:48 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:22:35 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+int	isunvalidchar(int j)
+{
+	if (j == '0' || j == '1' || j == 'N' || j == 'S'
+		|| j == 'E' || j == 'W' || j == ' ' || j == '\n' || j == '\t')
+		return (0);
+	return (1);
+}
 
 void	free_images(t_imgx **head, t_mlx *mlx)
 {
