@@ -6,15 +6,16 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 17:49:46 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:57:49 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-static int	process_map_line(t_map *vmap, char *line, int *ct)
+static int	process_map_line(t_map *vmap, char *line, int fd, int *ct)
 {
-	if (ft_isalpha(line[0]) == 0 && line[0] != '\n' && line[0] != '\0')
+	while (line && ft_isalpha(line[0]) == 0
+		&& line[0] != '\n' && line[0] != '\0')
 	{
 		if (ft_strchr(line, '\n'))
 			vmap->map[*ct] = ft_substr(line, 0, ft_strlen(line) - 1);
@@ -22,8 +23,11 @@ static int	process_map_line(t_map *vmap, char *line, int *ct)
 			vmap->map[*ct] = ft_strdup(line);
 		vmap->mapcpy[*ct] = ft_strdup(vmap->map[*ct]);
 		(*ct)++;
-		return (1);
+		free(line);
+		line = get_next_line(fd);
 	}
+	if (line)
+		free(line);
 	return (0);
 }
 
@@ -54,20 +58,17 @@ int	parse_map_content(t_map *vmap, char *filename, int fd, int nred)
 	fd = open(filename, O_RDONLY);
 	ct = 0;
 	i = 0;
-	vmap->fmpl = -1;
 	line = get_next_line(fd);
-	while (line)
+	while (line && !(ft_isalpha(line[0]) == 0
+			&& line[0] != '\n' && line[0] != '\0'))
 	{
-		if (process_map_line(vmap, line, &ct))
-		{
-			if (vmap->fmpl == -1)
-				vmap->fmpl = i;
-			vmap->lastmapline = i;
-		}
 		free(line);
 		line = get_next_line(fd);
 		i++;
 	}
+	vmap->fmpl = i;
+	process_map_line(vmap, line, fd, &ct);
+	vmap->lastmapline = ct + i;
 	close(fd);
 	vmap->numlines = nred;
 	return (finalize_map_content(vmap, ct, filename));
@@ -82,11 +83,14 @@ int	count_map_lines(char *filename, int *nred)
 	if (fd < 0)
 		return (ft_putstr_fd("Error\nFallo al abrir el archivo\n", 1), 1);
 	temp = get_next_line(fd);
-	while (temp != NULL)
+	while (temp && (ft_isalpha(temp[0]) != 0 || temp[0] == '\n'))
 	{
-		if (temp && ft_isalpha(temp[0]) == 0 && temp[0] != '\n'
-			&& temp[0] != '\0')
-			(*nred)++;
+		free(temp);
+		temp = get_next_line(fd);
+	}
+	while (temp && ft_isalpha(temp[0]) == 0 && temp[0] != '\n')
+	{
+		(*nred)++;
 		free(temp);
 		temp = get_next_line(fd);
 	}

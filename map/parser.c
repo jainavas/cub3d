@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 17:50:23 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:56:27 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	get_textures_paths(t_map *vmap, int fd)
 			vmap->floorcolor = ft_strtrim(&line[2], " \n");
 		free(line);
 		line = get_next_line(fd);
-		if (line && line[0] != '\n' && i >= vmap->lastmapline)
+		if (line && line[0] != '\n' && i >= vmap->lastmapline - 1)
 			return (vmap->lastmapline = -2, free(line));
 	}
 	close(fd);
