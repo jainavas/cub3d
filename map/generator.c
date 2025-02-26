@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:44 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 19:22:51 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:39:32 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,31 @@ int	colorparser(char *line, t_color *color)
 			if (!ft_isdigit(rgb[i][j]))
 				return (freedoublepointer(rgb), 1);
 	}
-	color->r = ft_atoi(rgb[0]);
 	color->g = ft_atoi(rgb[1]);
 	color->b = ft_atoi(rgb[2]);
 	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255
 		|| color->b < 0 || color->b > 255)
 		return (freedoublepointer(rgb), 1);
-	return (freedoublepointer(rgb), 0);
+	return (color->r = ft_atoi(rgb[0]), freedoublepointer(rgb), 0);
+}
+
+void	putmapinwidth(t_map *vmap)
+{
+	int		i;
+	char	*aux;
+
+	i = -1;
+	while (vmap->map[++i])
+	{
+		aux = ft_strnndup(vmap->map[i], vmap->numwd);
+		free(vmap->map[i]);
+		vmap->map[i] = aux;
+	}
+	i = -1;
+	while (vmap->mapcpy[++i])
+	{
+		aux = ft_strnndup(vmap->mapcpy[i], vmap->numwd);
+		free(vmap->mapcpy[i]);
+		vmap->mapcpy[i] = aux;
+	}
 }

@@ -69,3 +69,14 @@ char	*ft_strinsertdup(char *s, char *var, char *content)
 		return (ft_strdup(""));
 	return (free(s), res);
 }
+
+char	*ft_strnndup(const char *s, size_t n)
+{
+	char	*res;
+
+	res = ft_calloc((n + 1), sizeof(char));
+	if (res == NULL)
+		return (NULL);
+	ft_strlcpy(res, s, n + 1);
+	return (res);
+}

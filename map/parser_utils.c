@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 19:21:44 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:38:56 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	finalize_map_content(t_map *vmap, int ct, char *filename)
 	get_textures_paths(vmap, open(filename, O_RDONLY));
 	if (vmap->lastmapline == -2)
 		return (ft_putstr_fd("Error\nMap Config\n", 1), exit(-1), -1);
-	return (0);
+	return (putmapinwidth(vmap), 0);
 }
 
 int	parse_map_content(t_map *vmap, char *filename, int fd, int nred)
