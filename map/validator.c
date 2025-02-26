@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:53 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 19:03:16 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:13:49 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,16 @@ int	find_player(t_map *vmap, char **map)
 		posi = ft_strchrgrp(map[i], &ft_isorient);
 		if (posi != NULL)
 		{
-			if (ft_strchrgrp(posi + 1, &ft_isorient) != NULL)
+			if (ft_strchrgrp(posi + 1, &ft_isorient))
 				return (2);
 			vmap->pospx = posi - map[i];
 			vmap->pospy = i;
 			vmap->orientation = *posi;
 			res++;
 		}
+		if (ft_strchrgrp(map[i], &ft_isalpha)
+			&& !ft_strchrgrp(map[i], &ft_isorient))
+			return (2);
 		i++;
 	}
 	return (get_map_dimensions(vmap), res);

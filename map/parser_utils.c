@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 18:57:49 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:21:44 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	process_map_line(t_map *vmap, char *line, int fd, int *ct)
 {
 	while (line && ft_isalpha(line[0]) == 0
-		&& line[0] != '\n' && line[0] != '\0')
+		&& line[0] != '\n' && line[0] != '\0' && line[0] != '\t')
 	{
 		if (ft_strchr(line, '\n'))
 			vmap->map[*ct] = ft_substr(line, 0, ft_strlen(line) - 1);
@@ -60,7 +60,7 @@ int	parse_map_content(t_map *vmap, char *filename, int fd, int nred)
 	i = 0;
 	line = get_next_line(fd);
 	while (line && !(ft_isalpha(line[0]) == 0
-			&& line[0] != '\n' && line[0] != '\0'))
+			&& check_spaces(line[0]) == 1))
 	{
 		free(line);
 		line = get_next_line(fd);

@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:44 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/25 04:00:17 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:22:51 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	colorparser(char *line, t_color *color)
 	char	**rgb;
 
 	i = -1;
+	if (ft_strcount(line, ',') != 2)
+		return (1);
 	rgb = ft_split(line, ',');
 	if (!rgb)
 		return (1);
