@@ -6,94 +6,82 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/26 20:11:10 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/27 01:51:06 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-static int	process_map_line(t_map *vmap, char *line, int fd, int *ct)
+static void	process_map_line(t_map *vmap, char *line, int *ct, int *mapstart)
 {
-	while (line && ft_isalpha(line[0]) == 0
-		&& line[0] != '\n' && line[0] != '\0' && line[0] != '\t')
-	{
-		if (ft_strchr(line, '\n'))
-			vmap->map[*ct] = ft_substr(line, 0, ft_strlen(line) - 1);
-		else
-			vmap->map[*ct] = ft_strdup(line);
-		vmap->mapcpy[*ct] = ft_strdup(vmap->map[*ct]);
-		(*ct)++;
-		free(line);
-		line = get_next_line(fd);
-	}
-	if (line)
-		free(line);
+	if (ft_strchr(line, '\n'))
+		vmap->map[*ct] = ft_strtrim(line,"\n");
+	else
+		vmap->map[*ct] = ft_strdup(line);
+	vmap->mapcpy[*ct] = ft_strdup(vmap->map[*ct]);
+	(*ct)++;
+	*mapstart = 1;
+}
+
+static int	finalize_map_content(t_map *vmap, int ct)
+{
+	if (!*vmap->map || ct < 0)
+		return (printf("Error\nMap Config 1\n"), freepaths(vmap), -1);
+	vmap->map[vmap->numlines] = NULL;
+	vmap->mapcpy[vmap->numlines] = ft_strdup("0");
+	vmap->mapcpy[vmap->numlines + 1] = NULL;
+	if (find_player(vmap, vmap->map) != 1)
+		return (printf("Error\nMap Config 2\n"), freepaths(vmap), 1);
+	putmapinwidth(vmap);
 	return (0);
 }
 
-static int	finalize_map_content(t_map *vmap, int ct, char *filename)
-{
-	int	i;
-
-	if (!*vmap->map)
-		return (printf("Error\nMap Config 1\n"), -1);
-	vmap->map[ct] = NULL;
-	vmap->mapcpy[ct + 1] = NULL;
-	i = ft_strlen(vmap->map[ct - 1]);
-	vmap->mapcpy[ct] = ft_calloc(i + 1, sizeof(char));
-	if (find_player(vmap, vmap->map) != 1)
-		return (printf("Error\nMap Config 2\n"), 1);
-	get_textures_paths(vmap, open(filename, O_RDONLY));
-	if (vmap->lastmapline == -2)
-		return (ft_putstr_fd("Error\nMap Config 3\n", 1), exit(-1), -1);
-	return (putmapinwidth(vmap), 0);
-}
-
-int	parse_map_content(t_map *vmap, char *filename, int fd, int nred)
+int	parse_map_content(t_map *vmap, int mapstart, int fd, int nred)
 {
 	char	*line;
 	int		ct;
 	int		i;
 
-	fd = open(filename, O_RDONLY);
-	ct = 0;
 	i = 0;
+	ct = 0;
+	mapstart = 0;
 	line = get_next_line(fd);
-	while (line && (ft_isalpha(line[0]) != 0 || line[0] == '\n'))
+	while (line)
 	{
+		if (is_texture_or_color(line))
+			if (get_textures_paths(vmap, line))
+				return (ft_putstr_fd("Error\nTextura o color incorrecto\n", 1), freepaths(vmap), free(line), 1);
+		if (mapstart && !is_map_line(line))
+			return (ft_putstr_fd("Error\nLinea de mapa incorrecta\n", 1), freepaths(vmap), free(line), 1);
+		if (is_map_line(line))
+			process_map_line(vmap, line, &ct, &mapstart);
 		free(line);
 		line = get_next_line(fd);
 		i++;
 	}
-	vmap->fmpl = i;
-	process_map_line(vmap, line, fd, &ct);
-	vmap->lastmapline = ct + i;
-	close(fd);
-	vmap->numlines = nred;
-	return (finalize_map_content(vmap, ct, filename));
+	return (close(fd), vmap->numlines = nred, finalize_map_content(vmap, ct));
 }
 
-int	count_map_lines(char *filename, int *nred)
+int	count_map_lines(int *nred, int fd, int *mapstart)
 {
-	char	*temp;
-	int		fd;
+	char	*line;
 
-	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (ft_putstr_fd("Error\nFallo al abrir el archivo\n", 1), 1);
-	temp = get_next_line(fd);
-	while (temp && (ft_isalpha(temp[0]) != 0 || temp[0] == '\n'))
+	line = get_next_line(fd);
+	while (line && !is_map_line(line))
 	{
-		free(temp);
-		temp = get_next_line(fd);
+		(*mapstart)++;
+		free(line);
+		line = get_next_line(fd);
 	}
-	while (temp && ft_isalpha(temp[0]) == 0 && temp[0] != '\n')
+	while (line && is_map_line(line))
 	{
 		(*nred)++;
-		free(temp);
-		temp = get_next_line(fd);
+		free(line);
+		line = get_next_line(fd);
 	}
-	free(temp);
+	free(line);
 	close(fd);
 	return (0);
 }

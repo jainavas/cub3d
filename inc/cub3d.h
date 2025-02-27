@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:21 by jainavas          #+#    #+#             */
-/*   Updated: 2025/02/26 20:22:43 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/27 00:59:25 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "../libft_ext/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
+# include <ctype.h>
 # include <unistd.h>
 # include <math.h>
 # include <fcntl.h>
@@ -166,12 +167,15 @@ typedef struct var
 }	t_mlx;
 
 // cubed.c
+// parser2.c
+int				is_texture_or_color(char *line);
+int				is_map_line(char *line);
 // map
 int				find_player(t_map *vmap, char **map);
 int				check_flood_fill(t_map *vmap);
 t_map			*init_map(int numargs, char *filename);
 int				check_spaces(char str);
-void			get_textures_paths(t_map *vmap, int fd);
+int				get_textures_paths(t_map *vmap, char *line);
 int				**convert_to_int_map(t_map *vmap);
 void			get_map_dimensions(t_map *vmap);
 int				validate_colors(t_map *vmap);
@@ -207,9 +211,8 @@ void			draw_background(t_rayc *rc, t_mlx *mlx);
 void			draw_textured_line(t_rayc *rc, t_mlx *mlx, int x, t_imgx *img);
 void			rotate_camera_left(t_mlx *mlx);
 void			rotate_camera_right(t_mlx *mlx);
-int				count_map_lines(char *filename, int *nred);
-int				parse_map_content(t_map *vmap, char *filename,
-					int fd, int nred);
+int				count_map_lines(int *nred, int fd, int *mapstart);
+int				parse_map_content(t_map *vmap, int mapstart, int fd, int nred);
 void			putmapinwidth(t_map *vmap);
 int				isunvalidchar(int j);
 

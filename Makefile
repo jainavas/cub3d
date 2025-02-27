@@ -9,7 +9,7 @@ LIB_DIR = minilibx-linux
 
 SRC = core/main.c core/cleanup.c graphics/raycasting.c \
 		graphics/render.c graphics/texture.c input/movement.c \
-		map/generator.c map/parser.c map/validator.c map/parser_utils.c \
+		map/generator.c map/parser.c map/parser2.c map/validator.c map/parser_utils.c \
 		utils/image_utils.c utils/math_utils.c
 
 OBJ = $(SRC:.c=.o)
