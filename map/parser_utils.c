@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/27 01:51:06 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/27 02:04:48 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	process_map_line(t_map *vmap, char *line, int *ct, int *mapstart)
 {
 	if (ft_strchr(line, '\n'))
-		vmap->map[*ct] = ft_strtrim(line,"\n");
+		vmap->map[*ct] = ft_strtrim(line, "\n");
 	else
 		vmap->map[*ct] = ft_strdup(line);
 	vmap->mapcpy[*ct] = ft_strdup(vmap->map[*ct]);
@@ -50,9 +50,11 @@ int	parse_map_content(t_map *vmap, int mapstart, int fd, int nred)
 	{
 		if (is_texture_or_color(line))
 			if (get_textures_paths(vmap, line))
-				return (ft_putstr_fd("Error\nTextura o color incorrecto\n", 1), freepaths(vmap), free(line), 1);
+				return (ft_putstr_fd("Error\nTextura o color incorrecto\n", 1),
+					freepaths(vmap), free(line), 1);
 		if (mapstart && !is_map_line(line))
-			return (ft_putstr_fd("Error\nLinea de mapa incorrecta\n", 1), freepaths(vmap), free(line), 1);
+			return (ft_putstr_fd("Error\nLinea de mapa incorrecta\n", 1),
+				freepaths(vmap), free(line), 1);
 		if (is_map_line(line))
 			process_map_line(vmap, line, &ct, &mapstart);
 		free(line);
