@@ -6,7 +6,7 @@
 /*   By: jainavas <jainavas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:09:49 by mhiguera          #+#    #+#             */
-/*   Updated: 2025/02/28 16:58:43 by jainavas         ###   ########.fr       */
+/*   Updated: 2025/02/28 17:02:20 by jainavas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	parse_map_content(t_map *vmap, int mapstart, int fd, int nred)
 				return (ft_putstr_fd("Error\nTextura o color incorrecto\n", 1),
 					freepaths(vmap), free(line), 1);
 		if ((mapstart && !is_map_line(line)) || (!is_map_line(line)
-			&& !is_texture_or_color(line) && line[0] != '\n'))
+				&& !is_texture_or_color(line) && line[0] != '\n'))
 			return (ft_putstr_fd("Error\nLinea de mapa incorrecta\n", 1),
 				freepaths(vmap), free(line), 1);
 		if (is_map_line(line))
