@@ -1,14 +1,6 @@
 # cub3d
 
-<!-- Video o imagen de demostración -->
-
-<!-- Para video local en MP4 -->
-<p align="center">
-  <video width="640" controls>
-    <source src="./demo/democub3d.mp4" type="video/mp4">
-    Tu navegador no soporta la etiqueta <code>&lt;video&gt;</code>.
-  </video>
-</p>
+![Demostración](demo/demo.gif)
 
 ## Descripción general
 
