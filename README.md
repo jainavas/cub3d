@@ -5,7 +5,7 @@
 <!-- Para video local en MP4 -->
 <p align="center">
   <video width="640" controls>
-    <source src="demo/democub3d.mp4" type="video/mp4">
+    <source src="./demo/democub3d.mp4" type="video/mp4">
     Tu navegador no soporta la etiqueta <code>&lt;video&gt;</code>.
   </video>
 </p>
